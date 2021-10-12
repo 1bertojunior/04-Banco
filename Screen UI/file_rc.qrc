@@ -1,0 +1,17 @@
+<RCC>
+  <qresource prefix="Close_image">
+    <file>src/img/cil-x.png</file>
+  </qresource>
+  <qresource prefix="Back_image">
+    <file>src/img/back.png</file>
+  </qresource>
+  <qresource prefix="Logo_nav">
+    <file>src/img/logo_nav.png</file>
+  </qresource>
+  <qresource prefix="Icon">
+    <file>src/img/icon.ico</file>
+  </qresource>
+  <qresource prefix="Logo">
+    <file>src/img/money-2.png</file>
+  </qresource>
+</RCC>

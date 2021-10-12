@@ -1,4 +1,5 @@
 
+
 import sys
 import os
 
@@ -75,16 +76,22 @@ class Main(QMainWindow, Ui_Main):
         # INIT
         # OCULTANDO POPUP DE MENSSAGEM
         self.hideFrameErro(self.screenLogin)
-        self.hideFrameErro(self.screenDash)
         self.hideFrameErro(self.screenRegistration)
+        self.hideFrameErro(self.screenDash)
         self.hideFrameErro(self.screenWithdraw)
-        
+        self.hideFrameErro(self.screenDeposit)
+        self.hideFrameErro(self.screenTransfer)
+        self.hideFrameErro(self.screenHistoric)
+
         #BOTÕES
         #BTN FECHAR POPUP
         self.btnClosed(self.screenLogin)
-        self.btnClosed(self.screenDash)
         self.btnClosed(self.screenRegistration)
+        self.btnClosed(self.screenDash)
         self.btnClosed(self.screenWithdraw)
+        self.btnClosed(self.screenDeposit)
+        self.btnClosed(self.screenTransfer)
+        self.btnClosed(self.screenHistoric)
 
         
         #BTN VOLTAR
@@ -99,14 +106,18 @@ class Main(QMainWindow, Ui_Main):
         self.screenLogin.btn_login.clicked.connect(self.btnLogin) 
         # BTN CADASTRO
         self.screenLogin.btn_register.clicked.connect(self.openScreenRegistration) 
-        
+
         # DASH
         # BTN SACAR
         self.screenDash.btn_withdraw.clicked.connect(lambda: self.openScreen(6))
-
+        self.screenDash.btn.clicked.connect(lambda: self.openScreen(3))
+        
         # SACAR
         # BTN SACAR
         self.screenWithdraw.btn_withdraw.clicked.connect(self.btnWithdraw)
+
+        # DEPOSITAR
+        self.screenDeposit.btn_deposit.clicked.connect(self.btnDeposit)
 
 
     def btnWithdraw(self):
@@ -121,6 +132,21 @@ class Main(QMainWindow, Ui_Main):
             self.showMenssage(self.screenWithdraw, "Valor inválido!")
         elif value > balance:
             self.showMenssage(self.screenWithdraw, "Saldo indisponivel!")
+        
+    
+    def btnDeposit(self):
+        value = self.screenDeposit.in_value.value()
+        balance = 900
+
+        if value > 0:
+            balance += value
+            self.showMenssage(self.screenDeposit, "Deposito realziado com sucesso!",1)
+        else:
+            self.showMenssage(self.screenDeposit, "Valor inválido!")
+
+
+
+
 
 
 

@@ -20,7 +20,7 @@
    <string>Histórico</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="file_rc.qrc">
+   <iconset>
     <normaloff>:/Icon/src/img/icon.ico</normaloff>:/Icon/src/img/icon.ico</iconset>
   </property>
   <property name="styleSheet">
@@ -244,96 +244,21 @@ border-radius: 5px;R</string>
           <property name="frameShadow">
            <enum>QFrame::Raised</enum>
           </property>
-          <widget class="QLabel" name="label_despesa_2">
+          <widget class="QTextEdit" name="text_historic">
            <property name="geometry">
             <rect>
-             <x>10</x>
-             <y>20</y>
-             <width>341</width>
-             <height>31</height>
+             <x>0</x>
+             <y>0</y>
+             <width>351</width>
+             <height>301</height>
             </rect>
            </property>
-           <property name="font">
-            <font>
-             <pointsize>13</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color: rgb(115, 210, 22);</string>
-           </property>
-           <property name="text">
-            <string>+                         R$900,00             DEPOSITO</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_despesa_3">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>60</y>
-             <width>341</width>
-             <height>31</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>13</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color: rgb(204, 0, 0);</string>
-           </property>
-           <property name="text">
-            <string>-                         R$50,00                      321</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_despesa_4">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>100</y>
-             <width>341</width>
-             <height>31</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>13</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color: rgb(204, 0, 0);</string>
-           </property>
-           <property name="text">
-            <string>-                         R$230,00               SAQUE</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_despesa_5">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>140</y>
-             <width>341</width>
-             <height>31</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>13</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color: rgb(115, 210, 22);</string>
-           </property>
-           <property name="text">
-            <string>+                         R$50,00                     321</string>
+           <property name="html">
+            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Inter'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Teste&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </widget>

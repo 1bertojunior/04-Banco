@@ -131,9 +131,9 @@ class Transfer(object):
         self.label_balance_2.setFont(font)
         self.label_balance_2.setStyleSheet("color: rgb(65, 65, 65);")
         self.label_balance_2.setObjectName("label_balance_2")
-        self.btn_withdraw = QtWidgets.QPushButton(self.frame_center)
-        self.btn_withdraw.setGeometry(QtCore.QRect(20, 300, 360, 50))
-        self.btn_withdraw.setStyleSheet("QPushButton{\n"
+        self.btn_transfer = QtWidgets.QPushButton(self.frame_center)
+        self.btn_transfer.setGeometry(QtCore.QRect(20, 300, 360, 50))
+        self.btn_transfer.setStyleSheet("QPushButton{\n"
 "    background-color: rgb(251, 195, 60);\n"
 "    border: 2px solid rgb(60,60,60);\n"
 "    border-radius: 5px;\n"
@@ -152,7 +152,7 @@ class Transfer(object):
 "    color: black;\n"
 "}\n"
 "")
-        self.btn_withdraw.setObjectName("btn_withdraw")
+        self.btn_transfer.setObjectName("btn_transfer")
         self.in_value = QtWidgets.QDoubleSpinBox(self.frame_center)
         self.in_value.setGeometry(QtCore.QRect(20, 180, 360, 50))
         self.in_value.setDecimals(2)
@@ -245,7 +245,7 @@ class Transfer(object):
         self.label_erro.setText(_translate("MainWindow", "Erro"))
         self.label_balance.setText(_translate("MainWindow", "R$900,00"))
         self.label_balance_2.setText(_translate("MainWindow", "SALDO ATUAL"))
-        self.btn_withdraw.setText(_translate("MainWindow", "DEPOSITAR"))
+        self.btn_transfer.setText(_translate("MainWindow", "DEPOSITAR"))
         self.in_num_account.setPlaceholderText(_translate("MainWindow", "N conta"))
 
 

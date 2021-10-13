@@ -1,5 +1,3 @@
-
-
 import sys
 import os
 
@@ -97,7 +95,9 @@ class Main(QMainWindow, Ui_Main):
         #BTN VOLTAR
         self.screenRegistration.btn_back.clicked.connect(self.btnReturn)
         self.screenDash.btn_back.clicked.connect(self.btnReturn)        
-        self.screenWithdraw.btn_back.clicked.connect(lambda: self.openScreen(2))        
+        self.screenWithdraw.btn_back.clicked.connect(lambda: self.openScreen(2))
+        self.screenDeposit.btn_back.clicked.connect(lambda: self.openScreen(2))
+
 
 
 
@@ -111,6 +111,7 @@ class Main(QMainWindow, Ui_Main):
         # BTN SACAR
         self.screenDash.btn_withdraw.clicked.connect(lambda: self.openScreen(6))
         self.screenDash.btn.clicked.connect(lambda: self.openScreen(3))
+        self.screenDash.btn_transfer.clicked.connect(lambda: self.openScreen(5))
         
         # SACAR
         # BTN SACAR
@@ -118,6 +119,9 @@ class Main(QMainWindow, Ui_Main):
 
         # DEPOSITAR
         self.screenDeposit.btn_deposit.clicked.connect(self.btnDeposit)
+
+        # TRANSFERIR
+        self.screenTransfer.btn_transfer.clicked.connect(self.btnTransfer)
 
 
     def btnWithdraw(self):
@@ -141,11 +145,33 @@ class Main(QMainWindow, Ui_Main):
         if value > 0:
             balance += value
             self.showMenssage(self.screenDeposit, "Deposito realziado com sucesso!",1)
+            self.screenDeposit.in_value.setValue(0)
         else:
             self.showMenssage(self.screenDeposit, "Valor inválido!")
 
+    def btnTransfer(self):
+        value = self.screenTransfer.in_value.value()
+        destinationAccount = self.screenTransfer.in_num_account.text()
+        balance = 900
+
+        checkAccount = True
+
+        if value > 0 and value <= balance:
+            if destinationAccount != "":
+                if checkAccount:
+                    balance -= value
+                    self.showMenssage(self.screenTransfer, "Transferência realziado com sucesso!",1)
+                    self.screenTransfer.in_value.setValue(0)
+                    self.screenTransfer.in_num_account.setText("")                    
+                else:
+                    self.showMenssage(self.screenTransfer, "Conta não encontrada!")
+            else:
+                self.showMenssage(self.screenTransfer, "Preencha o campo conta de destino!")
+        else:
+            self.showMenssage(self.screenTransfer, "Valor inválido ou saldo indiponivel!")
 
 
+        
 
 
 

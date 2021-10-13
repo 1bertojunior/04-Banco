@@ -97,6 +97,7 @@ class Main(QMainWindow, Ui_Main):
         self.screenDash.btn_back.clicked.connect(self.btnReturn)        
         self.screenWithdraw.btn_back.clicked.connect(lambda: self.openScreen(2))
         self.screenDeposit.btn_back.clicked.connect(lambda: self.openScreen(2))
+        self.screenHistoric.btn_back.clicked.connect(lambda: self.openScreen(2))
 
 
 
@@ -108,13 +109,12 @@ class Main(QMainWindow, Ui_Main):
         self.screenLogin.btn_register.clicked.connect(self.openScreenRegistration) 
 
         # DASH
-        # BTN SACAR
         self.screenDash.btn_withdraw.clicked.connect(lambda: self.openScreen(6))
         self.screenDash.btn.clicked.connect(lambda: self.openScreen(3))
         self.screenDash.btn_transfer.clicked.connect(lambda: self.openScreen(5))
+        self.screenDash.btn_historic.clicked.connect(lambda: self.openScreen(4))
         
         # SACAR
-        # BTN SACAR
         self.screenWithdraw.btn_withdraw.clicked.connect(self.btnWithdraw)
 
         # DEPOSITAR

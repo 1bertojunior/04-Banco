@@ -6,13 +6,14 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox
 from PyQt5.QtCore import QCoreApplication, showbase
 from PyQt5.sip import setdestroyonexit
 
-from Login import Login
-from Register import Register
-from Dashboard import Dashboard
-from Withdraw import Withdraw
-from Deposit import Deposit
-from Transfer import Transfer
-from Historic import Historic
+
+from Screen.Login  import Login
+from Screen.Register import Register
+from Screen.Dashboard import Dashboard
+from Screen.Withdraw import Withdraw
+from Screen.Deposit import Deposit
+from Screen.Transfer import Transfer
+from Screen.Historic import Historic
 
 # STYES
 stylePopupErro = ("background-color: rgb(239, 41, 41); border-radius: 5px;")

@@ -112,7 +112,7 @@ class Main(QMainWindow, Ui_Main):
         self.screenDash.btn_withdraw.clicked.connect(lambda: self.openScreen(6))
         self.screenDash.btn.clicked.connect(lambda: self.openScreen(3))
         self.screenDash.btn_transfer.clicked.connect(lambda: self.openScreen(5))
-        self.screenDash.btn_historic.clicked.connect(lambda: self.openScreen(4))
+        self.screenDash.btn_historic.clicked.connect(self.initHistoric)
         
         # SACAR
         self.screenWithdraw.btn_withdraw.clicked.connect(self.btnWithdraw)
@@ -171,7 +171,19 @@ class Main(QMainWindow, Ui_Main):
             self.showMenssage(self.screenTransfer, "Valor inválido ou saldo indiponivel!")
 
 
+    def initHistoric(self):
+        list_historic = ["Deposito R$100,00 em 15/10/2021", 
+                        "Deposito R$70,00 em 15/10/2021",
+                        "Deposito R$730,00 em 15/10/2021"]
+        self.openScreen(4)
+
+
+        msg = ""
+        for i in list_historic:
+            msg +=  i + "\n" 
         
+        self.screenHistoric.text_historic.setText(msg)
+
 
 
 

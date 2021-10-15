@@ -99,6 +99,7 @@ class Main(QMainWindow, Ui_Main):
         self.screenWithdraw.btn_back.clicked.connect(lambda: self.openScreen(2))
         self.screenDeposit.btn_back.clicked.connect(lambda: self.openScreen(2))
         self.screenHistoric.btn_back.clicked.connect(lambda: self.openScreen(2))
+        self.screenTransfer.btn_back.clicked.connect(lambda: self.openScreen(2))
 
 
 

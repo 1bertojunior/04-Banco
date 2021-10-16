@@ -33,7 +33,6 @@ class Banco:
 
     def login(self, CPF, SENHA):
         if CPF in self.dic_contas.keys():
-            print("{} == {} ".format(SENHA, self.dic_contas[CPF].cliente.senha))
             if SENHA == self.dic_contas[CPF].cliente.senha:
                 return True
             else:

@@ -215,38 +215,10 @@ class Login(object):
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
          # ALTERAÇÕES
-        self.btn_x.clicked.connect(lambda: self.hideFrameErro()) # CLOSED FRAME ERRO
-
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-    
-    #FUNÇÕES
-#     # ESCONDER FRAME ERRO
-#     def hideFrameErro(self):
-#         self.frame_erro.hide()
-#     def isEmpty(self,arg):
-#         return arg == ""
-#     # CHECAR CAMPOS LOGIN
-#     def checkFields(self):
-#         cpf = self.in_cpf.text()
-#         account = self.in_num_account.text()
 
-#         def showMenssage(msg):
-#             self.label_erro.setText(msg)
-#             self.frame_erro.show()
-
-#         if self.isEmpty(cpf) | self.isEmpty(account):
-#             msg = "Preencha todos os campos!"
-#             self.frame_erro.setStyleSheet(self.stylePopupErro)
-#             showMenssage(msg)
-#         else:
-#             msg = "Logado com sucesso!"
-#             self.frame_erro.setStyleSheet(self.stylePopupOk)
-#             showMenssage(msg)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -256,9 +228,6 @@ class Login(object):
         self.in_password.setPlaceholderText(_translate("MainWindow", "Senha"))
         self.btn_login.setText(_translate("MainWindow", "Entrar"))
         self.btn_register.setText(_translate("MainWindow", "Cadastro"))
-
-
-#import files_rc
 
 
 if __name__ == "__main__":

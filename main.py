@@ -160,7 +160,6 @@ class Main(QMainWindow, Ui_Main):
         balance = banco.dic_contas[self.cpf].saldo
         
         if value > 0 and value <= balance:
-            # banco.dic_contas[self.cpf].saldo -= 100
             banco.dic_contas[self.cpf].saca(value)
             self.showMenssage(self.screenWithdraw, "Saque realziado com sucesso!",1)
             self.screenWithdraw.in_value.setValue(0)
@@ -189,11 +188,9 @@ class Main(QMainWindow, Ui_Main):
         value = self.screenTransfer.in_value.value()
         destinationAccount = self.screenTransfer.in_num_account.text()
         balance = banco.dic_contas[self.cpf].saldo
-        print(destinationAccount)
 
         if value > 0 and value <= balance:
             if destinationAccount != "":
-                print(banco.checkNumDaConta(destinationAccount))
                 if banco.checkNumDaConta(destinationAccount):
                     destinationCpf = banco.getNumContaPorCpf(destinationAccount)
                     if banco.dic_contas[self.cpf].transferir(banco.dic_contas[destinationCpf], value):
@@ -232,6 +229,8 @@ class Main(QMainWindow, Ui_Main):
         else:
             if banco.login(cpf,password):
                 self.cpf  = cpf
+                self.screenLogin.in_cpf.setText('')
+                self.screenLogin.in_password.setText('')
                 self.openScreen(2)
             else:
                 msg = "CPF ou senha incorretos!"
@@ -246,27 +245,24 @@ class Main(QMainWindow, Ui_Main):
         password = obj.in_password.text()
         password = MD5hash(password)
 
-        flagTypeMessage = 0
-        msg = ""
 
         if isEmpty(name) or isEmpty(surname) or isEmpty(cpf) or isEmpty(account) or isEmpty(password):
-            msg = "Preencha todos os campos!"
+            self.showMenssage(obj, "Preencha todos os campos!",0)
         else:
             if banco.getClientePorCpf(cpf):
-                msg = "CPF já cadastrado!"
+                self.showMenssage(obj, "CPF já cadastrado!",0)
             else:
                 if banco.checkNumDaConta(account):
-                    msg = "Conta já cadastrada!"
+                    self.showMenssage(obj, "Conta já cadastrada!",0)
                 else:
                     c = Cliente(name, surname, cpf, password)
                     banco.cria_conta(account, c)
-                    msg = "Cadastrado com sucesso!"
-                    flagTypeMessage = 1
-                    self.cpf = cpf
-                    self.showMenssage(obj, msg,flagTypeMessage)
-                    self.openScreen() 
-
-        self.showMenssage(obj, msg,flagTypeMessage)              
+                    obj.in_name.setText('')
+                    obj.in_surname.setText('')
+                    obj.in_cpf.setText('')
+                    obj.in_account.setText('')
+                    obj.in_password.setText('')
+                    self.openScreen()             
 
 
     #FUNÇÕES
@@ -285,14 +281,7 @@ class Main(QMainWindow, Ui_Main):
     # BOTÃO FECHAR POPUP
     def btnClosed(self, obj):
         obj.btn_x.clicked.connect(lambda: self.hideFrameErro(obj)) # CLOSED FRAME ERRO
-    def btnBack(self, obj, i=0):
-        self.QtStack.setCurrentIndex(i)
-    def teste(self):
-        print("teste click")
-    
-        
     def btnReturn(self, i=0):
-        print("Teste")
         self.QtStack.setCurrentIndex(i)   
     def openScreen(self, i=0):
         if i != 0 and i != 1 and i != 4:

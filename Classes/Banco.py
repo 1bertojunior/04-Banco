@@ -15,6 +15,13 @@ class Banco:
             if self.dic_contas[i].numero == num:
                 return True
         return False
+    
+    def getNumContaPorCpf(self, num):
+        for i in self.dic_contas.keys():
+            if self.dic_contas[i].numero == num:
+                return self.dic_contas[i].cliente.cpf
+        return ''
+
             
     def cria_conta(self, num, cliente):
         conta = Conta(num, cliente, 100.0, 100.0)

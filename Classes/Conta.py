@@ -69,7 +69,13 @@ class Conta:
         self._historico.transacoes.append('Tirou Extrato.')
 
     def transferir(self, destino, valor):
-        if not self.saca(valor) or not destino.deposita(valor):
-            return False
-        self._historico.transacoes.append(f'Transferencia de R$ {valor}.')
-        return True
+        print(destino, valor)
+        if self.saca(valor):
+            if destino.deposita(valor):
+                return True
+            else:
+                self.deposita(valor)
+        #if not self.saca(valor) or not destino.deposita(valor):
+        #    return False
+        #self._historico.transacoes.append(f'Transferencia de R$ {valor}.')
+        return False

@@ -39,7 +39,7 @@ def operacao(op):
 banco = Banco()
 
 c1 = Cliente('João', 'Silva', '111', MD5hash('123'))
-c2 = Cliente('Maria', 'Sousa', '222', MD5hash('sopademacaco2'))
+c2 = Cliente('Maria', 'Sousa', '222', MD5hash('123'))
 
 banco.cria_conta('123', c1)
 banco.cria_conta('321', c2)
@@ -134,7 +134,7 @@ class Main(QMainWindow, Ui_Main):
 
         # LOGIN
         self.screenLogin.btn_login.clicked.connect(self.btnLogin) 
-        self.screenLogin.btn_register.clicked.connect(self.openScreenRegistration) 
+        self.screenLogin.btn_register.clicked.connect(lambda: self.openScreen(1)) 
 
         # CADASTRO
         self.screenRegistration.btn_registration.clicked.connect(self.btnRegistration)
@@ -157,12 +157,14 @@ class Main(QMainWindow, Ui_Main):
 
     def btnWithdraw(self):
         value = self.screenWithdraw.in_value.value()
-        balance = 900
+        balance = banco.dic_contas[self.cpf].saldo
         
         if value > 0 and value <= balance:
             # banco.dic_contas[self.cpf].saldo -= 100
+            banco.dic_contas[self.cpf].saca(value)
             self.showMenssage(self.screenWithdraw, "Saque realziado com sucesso!",1)
             self.screenWithdraw.in_value.setValue(0)
+            self.openScreen(6)
         elif value <= 0:
             self.showMenssage(self.screenWithdraw, "Valor inválido!")
         elif value > balance:
@@ -171,29 +173,36 @@ class Main(QMainWindow, Ui_Main):
     
     def btnDeposit(self):
         value = self.screenDeposit.in_value.value()
-        balance = 900
 
         if value > 0:
-            balance += value
-            self.showMenssage(self.screenDeposit, "Deposito realziado com sucesso!",1)
-            self.screenDeposit.in_value.setValue(0)
+            if banco.dic_contas[self.cpf].deposita(value):
+                self.showMenssage(self.screenDeposit, "Deposito realziado com sucesso!",1)
+                self.screenDeposit.in_value.setValue(0)
+                self.openScreen(3)
+            else:
+                self.showMenssage(self.screenDeposit, "Erro ao depositar!")
         else:
             self.showMenssage(self.screenDeposit, "Valor inválido!")
+
 
     def btnTransfer(self):
         value = self.screenTransfer.in_value.value()
         destinationAccount = self.screenTransfer.in_num_account.text()
-        balance = 900
-
-        checkAccount = True
+        balance = banco.dic_contas[self.cpf].saldo
+        print(destinationAccount)
 
         if value > 0 and value <= balance:
             if destinationAccount != "":
-                if checkAccount:
-                    balance -= value
-                    self.showMenssage(self.screenTransfer, "Transferência realziado com sucesso!",1)
-                    self.screenTransfer.in_value.setValue(0)
-                    self.screenTransfer.in_num_account.setText("")                    
+                print(banco.checkNumDaConta(destinationAccount))
+                if banco.checkNumDaConta(destinationAccount):
+                    destinationCpf = banco.getNumContaPorCpf(destinationAccount)
+                    if banco.dic_contas[self.cpf].transferir(banco.dic_contas[destinationCpf], value):
+                        self.showMenssage(self.screenTransfer, "Transferência realziado com sucesso!",1)
+                        self.screenTransfer.in_value.setValue(0)
+                        self.screenTransfer.in_num_account.setText("")
+                        self.openScreen(5)
+                    else:
+                        self.showMenssage(self.screenTransfer, "Erro na transferência!",)
                 else:
                     self.showMenssage(self.screenTransfer, "Conta não encontrada!")
             else:
@@ -203,13 +212,12 @@ class Main(QMainWindow, Ui_Main):
 
 
     def initHistoric(self):
-        list_historic = ["Deposito R$100,00 em 15/10/2021", 
-                        "Deposito R$70,00 em 15/10/2021",
-                        "Deposito R$730,00 em 15/10/2021"]
+        list_historic = banco.dic_contas[self.cpf].historico.getHistorico()
         self.openScreen(4)
         msg = ""
         for i in list_historic:
             msg +=  i + "\n" 
+
         
         self.screenHistoric.text_historic.setText(msg)
         
@@ -223,8 +231,8 @@ class Main(QMainWindow, Ui_Main):
             self.showMenssage(self.screenLogin, msg)
         else:
             if banco.login(cpf,password):
-                self.cpf  = banco.dic_contas[cpf]
-                self.openScreenDash()
+                self.cpf  = cpf
+                self.openScreen(2)
             else:
                 msg = "CPF ou senha incorretos!"
                 self.showMenssage(self.screenLogin, msg)
@@ -287,11 +295,13 @@ class Main(QMainWindow, Ui_Main):
         print("Teste")
         self.QtStack.setCurrentIndex(i)   
     def openScreen(self, i=0):
+        if i != 0 and i != 1 and i != 4:
+            balance = banco.dic_contas[self.cpf].saldo
+            self.screenWithdraw.label_balance.setText(str(balance))
+            self.screenDash.label_balance.setText(str(balance))
+            self.screenDeposit.label_balance.setText(str(balance))
+            self.screenTransfer.label_balance.setText(str(balance))
         self.QtStack.setCurrentIndex(i)
-    def openScreenRegistration(self):
-        self.QtStack.setCurrentIndex(1)
-    def openScreenDash(self):
-        self.QtStack.setCurrentIndex(2)
     
 
 

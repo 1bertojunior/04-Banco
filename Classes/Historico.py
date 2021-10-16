@@ -6,8 +6,7 @@ class Historico:
         self.data_abertura = datetime.datetime.today()
         self.transacoes = []
 
-    def imprimir(self):
-        print(f'Data de abertura: {self.data_abertura}')
-        print('Transações')
-        for t in self.transacoes:
-            print('-', t)
+    def getHistorico(self):
+        #msg = f'Data de abertura: {self.data_abertura}'
+        self.transacoes.insert(0, 'Data de Abertura: ' + str(self.data_abertura))
+        return self.transacoes

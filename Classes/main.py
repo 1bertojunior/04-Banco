@@ -1,5 +1,5 @@
-from Banco import Banco
-from Cliente import Cliente
+from Classes.Banco import Banco
+from Classes.Cliente import Cliente
 
 
 def operacao(op):
@@ -22,6 +22,7 @@ b = conta.login('111', 'sopademacaco')
 operacao(a)
 operacao(b)
 print(len(conta.dic_contas))
+conta.dic_contas['111'].historico.getHistorico()
 #print(conta.dic_contas['111'].numero)
 
 # conta1 = Conta('123-4', c1, 120.0, 1000.0)

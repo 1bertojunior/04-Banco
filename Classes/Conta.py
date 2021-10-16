@@ -1,4 +1,4 @@
-from historico import Historico
+from Classes.Historico import Historico
 
 
 class Conta:

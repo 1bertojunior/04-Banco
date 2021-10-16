@@ -20,7 +20,7 @@
    <string>Login</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="file_rc.qrc">
+   <iconset>
     <normaloff>:/Icon/src/img/icon.ico</normaloff>:/Icon/src/img/icon.ico</iconset>
   </property>
   <property name="styleSheet">
@@ -262,7 +262,7 @@ QLineEdit:focus{
            <string>CPF</string>
           </property>
          </widget>
-         <widget class="QLineEdit" name="in_num_account">
+         <widget class="QLineEdit" name="in_password">
           <property name="geometry">
            <rect>
             <x>55</x>
@@ -294,11 +294,17 @@ QLineEdit:focus{
 
 </string>
           </property>
+          <property name="text">
+           <string/>
+          </property>
           <property name="maxLength">
            <number>8</number>
           </property>
+          <property name="echoMode">
+           <enum>QLineEdit::Password</enum>
+          </property>
           <property name="placeholderText">
-           <string>N conta</string>
+           <string>Senha</string>
           </property>
          </widget>
          <widget class="QPushButton" name="btn_login">

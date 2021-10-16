@@ -20,7 +20,7 @@
    <string>Register</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="file_rc.qrc">
+   <iconset>
     <normaloff>:/Icon/src/img/icon.ico</normaloff>:/Icon/src/img/icon.ico</iconset>
   </property>
   <property name="styleSheet">
@@ -204,7 +204,7 @@ QPushButton:pressed{
           <property name="geometry">
            <rect>
             <x>55</x>
-            <y>130</y>
+            <y>113</y>
             <width>280</width>
             <height>50</height>
            </rect>
@@ -239,11 +239,11 @@ QLineEdit:focus{
            <string>Sobrenome</string>
           </property>
          </widget>
-         <widget class="QPushButton" name="btn_login">
+         <widget class="QPushButton" name="btn_registration">
           <property name="geometry">
            <rect>
             <x>55</x>
-            <y>310</y>
+            <y>328</y>
             <width>280</width>
             <height>50</height>
            </rect>
@@ -277,7 +277,7 @@ QPushButton:pressed{
           <property name="geometry">
            <rect>
             <x>55</x>
-            <y>70</y>
+            <y>58</y>
             <width>280</width>
             <height>50</height>
            </rect>
@@ -316,7 +316,7 @@ QLineEdit:focus{
           <property name="geometry">
            <rect>
             <x>55</x>
-            <y>190</y>
+            <y>168</y>
             <width>280</width>
             <height>50</height>
            </rect>
@@ -351,11 +351,11 @@ QLineEdit:focus{
            <string>CPF</string>
           </property>
          </widget>
-         <widget class="QLineEdit" name="in_cpf_2">
+         <widget class="QLineEdit" name="in_account">
           <property name="geometry">
            <rect>
             <x>55</x>
-            <y>250</y>
+            <y>222</y>
             <width>280</width>
             <height>50</height>
            </rect>
@@ -394,7 +394,7 @@ QLineEdit:focus{
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>10</y>
+            <y>0</y>
             <width>401</width>
             <height>50</height>
            </rect>
@@ -411,6 +411,45 @@ border-radius: 5px;R</string>
           </property>
           <property name="frameShadow">
            <enum>QFrame::Raised</enum>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="in_password">
+          <property name="geometry">
+           <rect>
+            <x>55</x>
+            <y>274</y>
+            <width>280</width>
+            <height>50</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLineEdit{
+	background-color: rgb(30,30,30);
+	border: 2px solid rgb(35, 35, 35);
+	border-radius: 5px;
+	padding: 15px;
+	color: rgb(255, 255, 255);
+}
+QLineEdit:hover{
+	border: 2px solid rgb(55, 55, 55);
+}
+QLineEdit:focus{
+	border: 2px solid rgb(251, 195, 60);
+}
+
+
+</string>
+          </property>
+          <property name="maxLength">
+           <number>11</number>
+          </property>
+          <property name="placeholderText">
+           <string>Senha</string>
           </property>
          </widget>
         </widget>

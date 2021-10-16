@@ -1,5 +1,5 @@
-from registro import Contas
-from cliente import Cliente
+from Banco import Banco
+from Cliente import Cliente
 
 
 def operacao(op):
@@ -13,7 +13,7 @@ c1 = Cliente('João', 'Silva', '111', 'sopademacaco')
 c2 = Cliente('Juliana', 'Sousa', '222', 'sopademacaco2')
 
 
-conta = Contas()
+conta = Banco()
 
 operacao(conta.cria_conta('1234-5', c1))
 operacao(conta.cria_conta('9876-5', c2))

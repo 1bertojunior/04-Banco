@@ -3,17 +3,46 @@ import os
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox
-from PyQt5.QtCore import QCoreApplication, showbase
+from PyQt5.QtCore import QCoreApplication, reset, showbase
 from PyQt5.sip import setdestroyonexit
 
+import hashlib
 
-from Screen.Login  import Login
-from Screen.Register import Register
-from Screen.Dashboard import Dashboard
-from Screen.Withdraw import Withdraw
-from Screen.Deposit import Deposit
-from Screen.Transfer import Transfer
-from Screen.Historic import Historic
+from Views.Login  import Login
+from Views.Register import Register
+from Views.Dashboard import Dashboard
+from Views.Withdraw import Withdraw
+from Views.Deposit import Deposit
+from Views.Transfer import Transfer
+from Views.Historic import Historic
+
+from Classes.Banco import Banco
+from Classes.Cliente import Cliente
+
+def MD5hash(arg):
+    result = ""
+    if not(arg == ""):
+        str = hashlib.md5()
+        str.update(arg.encode('utf-8'))
+        result = str.hexdigest()
+    return result
+
+def isEmpty(arg):
+        return arg == ""
+
+def operacao(op):
+    if op:
+        print('Operação realizada com sucesso.')
+    else:
+        print('Operação invalida!')
+
+banco = Banco()
+
+c1 = Cliente('João', 'Silva', '111', MD5hash('123'))
+c2 = Cliente('Maria', 'Sousa', '222', MD5hash('sopademacaco2'))
+
+banco.cria_conta('123', c1)
+banco.cria_conta('321', c2)
 
 # STYES
 stylePopupErro = ("background-color: rgb(239, 41, 41); border-radius: 5px;")
@@ -33,9 +62,6 @@ class Ui_Main(QtWidgets.QWidget):
         self.stack4 = QtWidgets.QMainWindow()
         self.stack5 = QtWidgets.QMainWindow()
         self.stack6 = QtWidgets.QMainWindow()
-
-        # self.screenDash = Dashboard()
-        # self.screenDash.setupUi(self.stack0)
 
         self.screenLogin = Login()
         self.screenLogin.setupUi(self.stack0)
@@ -72,6 +98,8 @@ class Main(QMainWindow, Ui_Main):
         super(Main, self).__init__(parent)
         self.setupUi(self)
 
+        self.cpf = None
+
         # INIT
         # OCULTANDO POPUP DE MENSSAGEM
         self.hideFrameErro(self.screenLogin)
@@ -105,10 +133,11 @@ class Main(QMainWindow, Ui_Main):
 
 
         # LOGIN
-        # BTN LOGIN
         self.screenLogin.btn_login.clicked.connect(self.btnLogin) 
-        # BTN CADASTRO
         self.screenLogin.btn_register.clicked.connect(self.openScreenRegistration) 
+
+        # CADASTRO
+        self.screenRegistration.btn_registration.clicked.connect(self.btnRegistration)
 
         # DASH
         self.screenDash.btn_withdraw.clicked.connect(lambda: self.openScreen(6))
@@ -131,7 +160,7 @@ class Main(QMainWindow, Ui_Main):
         balance = 900
         
         if value > 0 and value <= balance:
-            balance -= value
+            # banco.dic_contas[self.cpf].saldo -= 100
             self.showMenssage(self.screenWithdraw, "Saque realziado com sucesso!",1)
             self.screenWithdraw.in_value.setValue(0)
         elif value <= 0:
@@ -178,32 +207,59 @@ class Main(QMainWindow, Ui_Main):
                         "Deposito R$70,00 em 15/10/2021",
                         "Deposito R$730,00 em 15/10/2021"]
         self.openScreen(4)
-
-
         msg = ""
         for i in list_historic:
             msg +=  i + "\n" 
         
         self.screenHistoric.text_historic.setText(msg)
-
-
-
-
-
-
         
     def btnLogin(self):
         cpf = self.screenLogin.in_cpf.text()
-        account = self.screenLogin.in_num_account.text()
+        password = self.screenLogin.in_password.text()
+        password = MD5hash(password)
 
-        if self.isEmpty(cpf) | self.isEmpty(account):
+        if isEmpty(cpf) | isEmpty(password):
             msg = "Preencha todos os campos!"
             self.showMenssage(self.screenLogin, msg)
         else:
-            # msg = "Logado com sucesso!"
-            # self.showMenssage(self.screenLogin, msg,1)
-            self.openScreenDash()
-        
+            if banco.login(cpf,password):
+                self.cpf  = banco.dic_contas[cpf]
+                self.openScreenDash()
+            else:
+                msg = "CPF ou senha incorretos!"
+                self.showMenssage(self.screenLogin, msg)
+
+    def btnRegistration(self):
+        obj = self.screenRegistration
+        name = obj.in_name.text()
+        surname = obj.in_surname.text()
+        cpf = obj.in_cpf.text()
+        account = obj.in_account.text()
+        password = obj.in_password.text()
+        password = MD5hash(password)
+
+        flagTypeMessage = 0
+        msg = ""
+
+        if isEmpty(name) or isEmpty(surname) or isEmpty(cpf) or isEmpty(account) or isEmpty(password):
+            msg = "Preencha todos os campos!"
+        else:
+            if banco.getClientePorCpf(cpf):
+                msg = "CPF já cadastrado!"
+            else:
+                if banco.checkNumDaConta(account):
+                    msg = "Conta já cadastrada!"
+                else:
+                    c = Cliente(name, surname, cpf, password)
+                    banco.cria_conta(account, c)
+                    msg = "Cadastrado com sucesso!"
+                    flagTypeMessage = 1
+                    self.cpf = cpf
+                    self.showMenssage(obj, msg,flagTypeMessage)
+                    self.openScreen() 
+
+        self.showMenssage(obj, msg,flagTypeMessage)              
+
 
     #FUNÇÕES
     def showMenssage(self, obj, msg="erro", flag=0):
@@ -225,8 +281,7 @@ class Main(QMainWindow, Ui_Main):
         self.QtStack.setCurrentIndex(i)
     def teste(self):
         print("teste click")
-    def isEmpty(self,arg):
-        return arg == ""
+    
         
     def btnReturn(self, i=0):
         print("Teste")

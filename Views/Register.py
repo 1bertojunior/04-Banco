@@ -95,7 +95,7 @@ class Register(object):
         self.frame_center.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_center.setObjectName("frame_center")
         self.in_surname = QtWidgets.QLineEdit(self.frame_center)
-        self.in_surname.setGeometry(QtCore.QRect(55, 130, 280, 50))
+        self.in_surname.setGeometry(QtCore.QRect(55, 113, 280, 50))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.in_surname.setFont(font)
@@ -117,9 +117,9 @@ class Register(object):
 "")
         self.in_surname.setMaxLength(11)
         self.in_surname.setObjectName("in_surname")
-        self.btn_login = QtWidgets.QPushButton(self.frame_center)
-        self.btn_login.setGeometry(QtCore.QRect(55, 310, 280, 50))
-        self.btn_login.setStyleSheet("QPushButton{\n"
+        self.btn_registration = QtWidgets.QPushButton(self.frame_center)
+        self.btn_registration.setGeometry(QtCore.QRect(55, 328, 280, 50))
+        self.btn_registration.setStyleSheet("QPushButton{\n"
 "    background-color: rgb(50, 50, 50);\n"
 "    border: 2px solid rgb(60,60,60);\n"
 "    border-radius: 5px;\n"
@@ -138,9 +138,9 @@ class Register(object):
 "    color: black;\n"
 "}\n"
 "")
-        self.btn_login.setObjectName("btn_login")
+        self.btn_registration.setObjectName("btn_registration")
         self.in_name = QtWidgets.QLineEdit(self.frame_center)
-        self.in_name.setGeometry(QtCore.QRect(55, 70, 280, 50))
+        self.in_name.setGeometry(QtCore.QRect(55, 58, 280, 50))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.in_name.setFont(font)
@@ -163,7 +163,7 @@ class Register(object):
         self.in_name.setMaxLength(11)
         self.in_name.setObjectName("in_name")
         self.in_cpf = QtWidgets.QLineEdit(self.frame_center)
-        self.in_cpf.setGeometry(QtCore.QRect(55, 190, 280, 50))
+        self.in_cpf.setGeometry(QtCore.QRect(55, 168, 280, 50))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.in_cpf.setFont(font)
@@ -185,12 +185,12 @@ class Register(object):
 "")
         self.in_cpf.setMaxLength(11)
         self.in_cpf.setObjectName("in_cpf")
-        self.in_cpf_2 = QtWidgets.QLineEdit(self.frame_center)
-        self.in_cpf_2.setGeometry(QtCore.QRect(55, 250, 280, 50))
+        self.in_account = QtWidgets.QLineEdit(self.frame_center)
+        self.in_account.setGeometry(QtCore.QRect(55, 222, 280, 50))
         font = QtGui.QFont()
         font.setPointSize(11)
-        self.in_cpf_2.setFont(font)
-        self.in_cpf_2.setStyleSheet("QLineEdit{\n"
+        self.in_account.setFont(font)
+        self.in_account.setStyleSheet("QLineEdit{\n"
 "    background-color: rgb(30,30,30);\n"
 "    border: 2px solid rgb(35, 35, 35);\n"
 "    border-radius: 5px;\n"
@@ -206,10 +206,10 @@ class Register(object):
 "\n"
 "\n"
 "")
-        self.in_cpf_2.setMaxLength(11)
-        self.in_cpf_2.setObjectName("in_cpf_2")
+        self.in_account.setMaxLength(11)
+        self.in_account.setObjectName("in_account")
         self.frame_logo = QtWidgets.QFrame(self.frame_center)
-        self.frame_logo.setGeometry(QtCore.QRect(0, 10, 401, 50))
+        self.frame_logo.setGeometry(QtCore.QRect(0, 0, 401, 50))
         self.frame_logo.setStyleSheet("background-image: url(:/Logo_nav/src/img/logo_nav.png);\n"
 "background-position: center;\n"
 "background-repeat: no-repeat;\n"
@@ -218,6 +218,29 @@ class Register(object):
         self.frame_logo.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_logo.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_logo.setObjectName("frame_logo")
+        self.in_password = QtWidgets.QLineEdit(self.frame_center)
+        self.in_password.setGeometry(QtCore.QRect(55, 274, 280, 50))
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.in_password.setFont(font)
+        self.in_password.setStyleSheet("QLineEdit{\n"
+"    background-color: rgb(30,30,30);\n"
+"    border: 2px solid rgb(35, 35, 35);\n"
+"    border-radius: 5px;\n"
+"    padding: 15px;\n"
+"    color: rgb(255, 255, 255);\n"
+"}\n"
+"QLineEdit:hover{\n"
+"    border: 2px solid rgb(55, 55, 55);\n"
+"}\n"
+"QLineEdit:focus{\n"
+"    border: 2px solid rgb(251, 195, 60);\n"
+"}\n"
+"\n"
+"\n"
+"")
+        self.in_password.setMaxLength(11)
+        self.in_password.setObjectName("in_password")
         self.horizontalLayout.addWidget(self.frame_center)
         self.verticalLayout.addWidget(self.frame_content)
         self.frame_bottom = QtWidgets.QFrame(self.centralwidget)
@@ -264,12 +287,11 @@ class Register(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Register"))
         self.label_erro.setText(_translate("MainWindow", "Erro"))
         self.in_surname.setPlaceholderText(_translate("MainWindow", "Sobrenome"))
-        self.btn_login.setText(_translate("MainWindow", "CADASTRAR"))
+        self.btn_registration.setText(_translate("MainWindow", "CADASTRAR"))
         self.in_name.setPlaceholderText(_translate("MainWindow", "Nome"))
         self.in_cpf.setPlaceholderText(_translate("MainWindow", "CPF"))
-        self.in_cpf_2.setPlaceholderText(_translate("MainWindow", "Num conta"))
-
-import files_rc
+        self.in_account.setPlaceholderText(_translate("MainWindow", "Num conta"))
+        self.in_password.setPlaceholderText(_translate("MainWindow", "Senha"))
 
 
 if __name__ == "__main__":

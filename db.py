@@ -1,13 +1,8 @@
 import mysql.connector as mysql
 
-# _host = '156.67.64.6'
-# _dbname = 'u831868453_pooii'
-# _username = 'u831868453_pooii'
-# _password = 'Senhadeacessopooi_2021'
 
 class DB():
-    
-    # def __init__(self, host = '156.67.64.6', dbname = 'u831868453_pooii', username = 'u831868453_pooii', password = "Senhadeacessopooi_2021") -> None:
+
     def __init__(self, host = '', dbname = '', username = '', password = "") -> None:
         self._host = host
         self._dbname = dbname

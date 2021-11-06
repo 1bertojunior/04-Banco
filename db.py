@@ -1,0 +1,98 @@
+import mysql.connector as mysql
+
+# _host = '156.67.64.6'
+# _dbname = 'u831868453_pooii'
+# _username = 'u831868453_pooii'
+# _password = 'Senhadeacessopooi_2021'
+
+class DB():
+    
+    # def __init__(self, host = '156.67.64.6', dbname = 'u831868453_pooii', username = 'u831868453_pooii', password = "Senhadeacessopooi_2021") -> None:
+    def __init__(self, host = '', dbname = '', username = '', password = "") -> None:
+        self._host = host
+        self._dbname = dbname
+        self._username = username
+        self._password = password
+
+    # CONECTAR AO BANCO DE DADOS
+    def toConnect(self) -> bool:
+        result = None
+        try:
+            self.conn = mysql.connect(
+                host = self._host,
+                db =  self._dbname,
+                user = self._username,
+                passwd = self._password
+            )
+
+            if self.conn.is_connected():
+                print("# CONEXÃO REALIZADA COM SUCESSO!")
+                result = True
+        
+        except:
+            print("[!] ERRO AO SE COMUNICAR COM DB")
+            result = False
+        
+        return result
+    
+    def disconnect(self) -> bool:
+        result = None
+
+        try:
+            if self.conn:
+                self.conn.close()
+                result = True
+        except:
+            result = False
+
+        return result
+    
+    def commit(self):
+        try:
+            self.conn.commit()
+        except:
+            print("[!] COMMIT")
+
+    def cursor(self, query = "", tupla = ()):
+        result = None
+
+        try:
+            if self.conn and query != "":
+                cursor = self.conn.cursor()
+                result = cursor.execute(query, tupla)
+
+        except:
+            result = False
+
+        return result
+
+    def fetchAll(self, query = "", tupla = ()):
+        result = None
+
+        try:
+            if self.conn and query != "":
+                cursor = self.conn.cursor()
+                cursor.execute(query, tupla)
+                result = cursor.fetchall()
+
+        except:
+            result = False
+
+        return result
+
+    def fetchOne(self, query = "",  tupla = ()):
+        result = None
+
+        # query = 'SELECT * FROM users_class'
+
+        
+        try:
+            if self.conn and query != "":
+                cursor = self.conn.cursor()
+                cursor.execute(query, tupla)
+                result = cursor.fetchone()
+
+        except:
+            result = False
+
+        return result

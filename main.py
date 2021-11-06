@@ -232,9 +232,12 @@ class Main(QMainWindow, Ui_Main):
                 self.screenLogin.in_cpf.setText('')
                 self.screenLogin.in_password.setText('')
                 self.openScreen(2)
+                 
             else:
                 msg = "CPF ou senha incorretos!"
                 self.showMenssage(self.screenLogin, msg)
+
+
 
     def btnRegistration(self):
         obj = self.screenRegistration

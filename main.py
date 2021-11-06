@@ -16,7 +16,7 @@ from Views.Deposit import Deposit
 from Views.Transfer import Transfer
 from Views.Historic import Historic
 
-from Classes.Banco import Banco
+from Classes.Banco import *
 from Classes.Cliente import Cliente
 
 def MD5hash(arg):
@@ -38,11 +38,11 @@ def operacao(op):
 
 banco = Banco()
 
-c1 = Cliente('João', 'Silva', '111', MD5hash('123'))
-c2 = Cliente('Maria', 'Sousa', '222', MD5hash('123'))
+# c1 = Cliente('João', 'Silva', '111', MD5hash('123'))
+# c2 = Cliente('Maria', 'Sousa', '222', MD5hash('123'))
 
-banco.cria_conta('123', c1)
-banco.cria_conta('321', c2)
+# banco.cria_conta('123', c1)
+# banco.cria_conta('321', c2)
 
 # STYES
 stylePopupErro = ("background-color: rgb(239, 41, 41); border-radius: 5px;")
@@ -157,10 +157,13 @@ class Main(QMainWindow, Ui_Main):
 
     def btnWithdraw(self):
         value = self.screenWithdraw.in_value.value()
-        balance = banco.dic_contas[self.cpf].saldo
+        balance = banco.getBalanceAccount(self.cpf)
         
         if value > 0 and value <= balance:
-            banco.dic_contas[self.cpf].saca(value)
+            query = "UPDATE account SET balance = balance - %s WHERE fk_client = %s"
+            banco.db.cursor(query, (value, banco.idClient))
+
+            banco.db.commit()
             self.showMenssage(self.screenWithdraw, "Saque realziado com sucesso!",1)
             self.screenWithdraw.in_value.setValue(0)
             self.openScreen(6)
@@ -174,12 +177,15 @@ class Main(QMainWindow, Ui_Main):
         value = self.screenDeposit.in_value.value()
 
         if value > 0:
-            if banco.dic_contas[self.cpf].deposita(value):
-                self.showMenssage(self.screenDeposit, "Deposito realziado com sucesso!",1)
-                self.screenDeposit.in_value.setValue(0)
-                self.openScreen(3)
-            else:
-                self.showMenssage(self.screenDeposit, "Erro ao depositar!")
+            query = "UPDATE account SET balance = balance + %s WHERE fk_client = %s"
+            banco.db.cursor(query, (value, banco.idClient))
+            banco.db.commit()
+            # if banco.dic_contas[self.cpf].deposita(value):
+            self.showMenssage(self.screenDeposit, "Deposito realziado com sucesso!",1)
+            self.screenDeposit.in_value.setValue(0)
+            self.openScreen(3)
+            # else:
+                # self.showMenssage(self.screenDeposit, "Erro ao depositar!")
         else:
             self.showMenssage(self.screenDeposit, "Valor inválido!")
 
@@ -260,6 +266,8 @@ class Main(QMainWindow, Ui_Main):
                 else:
                     c = Cliente(name, surname, cpf, password)
                     banco.cria_conta(account, c)
+
+                    
                     obj.in_name.setText('')
                     obj.in_surname.setText('')
                     obj.in_cpf.setText('')
@@ -288,7 +296,9 @@ class Main(QMainWindow, Ui_Main):
         self.QtStack.setCurrentIndex(i)   
     def openScreen(self, i=0):
         if i != 0 and i != 1 and i != 4:
-            balance = banco.dic_contas[self.cpf].saldo
+            # balance = banco.dic_contas[self.cpf].saldo
+            balance = banco.getBalanceAccount(self.cpf)
+            
             self.screenWithdraw.label_balance.setText(str(balance))
             self.screenDash.label_balance.setText(str(balance))
             self.screenDeposit.label_balance.setText(str(balance))

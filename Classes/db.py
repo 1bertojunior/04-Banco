@@ -2,7 +2,7 @@ import mysql.connector as mysql
 
 
 class DB():
-
+    
     def __init__(self, host = '', dbname = '', username = '', password = "") -> None:
         self._host = host
         self._dbname = dbname
@@ -52,9 +52,11 @@ class DB():
         result = None
 
         try:
+            
             if self.conn and query != "":
                 cursor = self.conn.cursor()
-                result = cursor.execute(query, tupla)
+                self.result = cursor.execute(query, tupla)
+                result = True
 
         except:
             result = False

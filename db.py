@@ -1,9 +1,5 @@
 import mysql.connector as mysql
 
-# _host = '156.67.64.6'
-# _dbname = 'u831868453_pooii'
-# _username = 'u831868453_pooii'
-# _password = 'Senhadeacessopooi_2021'
 
 class DB():
     

@@ -191,21 +191,27 @@ class Main(QMainWindow, Ui_Main):
 
 
     def btnTransfer(self):
+        balance = banco.getBalanceAccount(self.cpf)
         value = self.screenTransfer.in_value.value()
         destinationAccount = self.screenTransfer.in_num_account.text()
-        balance = banco.dic_contas[self.cpf].saldo
 
         if value > 0 and value <= balance:
             if destinationAccount != "":
                 if banco.checkNumDaConta(destinationAccount):
-                    destinationCpf = banco.getNumContaPorCpf(destinationAccount)
-                    if banco.dic_contas[self.cpf].transferir(banco.dic_contas[destinationCpf], value):
-                        self.showMenssage(self.screenTransfer, "Transferência realziado com sucesso!",1)
-                        self.screenTransfer.in_value.setValue(0)
-                        self.screenTransfer.in_num_account.setText("")
-                        self.openScreen(5)
-                    else:
-                        self.showMenssage(self.screenTransfer, "Erro na transferência!",)
+                    if banco.saca(banco.idClient, value):
+                        if banco.depositar2(destinationAccount, value):
+                            self.showMenssage(self.screenTransfer, "Transferência realizada com sucesso!", 1)
+                            self.screenTransfer.in_value.setValue(0)
+                            self.screenTransfer.in_num_account.setText("")
+                            self.openScreen(5)
+                    # destinationCpf = banco.getNumContaPorCpf(destinationAccount)
+                    # if banco.dic_contas[self.cpf].transferir(banco.dic_contas[destinationCpf], value):
+                    #     self.showMenssage(self.screenTransfer, "Transferência realziado com sucesso!",1)
+                    #     self.screenTransfer.in_value.setValue(0)
+                    #     self.screenTransfer.in_num_account.setText("")
+                    #     self.openScreen(5)
+                    # else:
+                    #     self.showMenssage(self.screenTransfer, "Erro na transferência!",)
                 else:
                     self.showMenssage(self.screenTransfer, "Conta não encontrada!")
             else:

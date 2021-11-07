@@ -87,3 +87,50 @@ class Banco:
         else:
             return result[0]
 
+    def saca(self, id, value):
+        result = None
+        try:
+            query = "UPDATE account SET balance = balance - %s WHERE fk_client = %s"
+            self.db.cursor(query, (value, id))
+            self.db.commit()
+            result = True
+        except:
+            result = False
+
+        return result
+
+    def depositar(self, id, value):
+        result = None
+        try:
+            query = "UPDATE account SET balance = balance + %s WHERE fk_client = %s"
+            self.db.cursor(query, (value, id))
+            self.db.commit()
+            result = True
+        except:
+            result = False
+
+        return result
+
+    def depositar2(self, num, value):
+        result = None
+        try:
+            query = "UPDATE account SET balance = balance + %s WHERE num = %s"
+            self.db.cursor(query, (value, num))
+            self.db.commit()
+            result = True
+        except:
+            result = False
+
+        return result
+
+    def getIdClientByNumAccount(self, num):
+        result = None
+
+        try:
+            query = "SELECT a.balance, a.fk_client FROM client AS c INNER JOIN account AS a ON c.id = a.fk_client WHERE cpf = '" + cpf + "'"
+            result = self.db.fetchOne(query)
+            result = result[1]
+        except:
+            result = False
+
+        return result

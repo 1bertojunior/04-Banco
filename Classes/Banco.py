@@ -100,10 +100,16 @@ class Banco:
         result = None
         query = "SELECT id FROM client WHERE cpf = '"+ CPF +"' AND password = '" + SENHA +"'" 
         result = self.db.fetchOne(query)
+        # print('result [0] ', result[0])
 
         if result == None:
             return False
         else:
+            self.id_account = self.getIdAccountByIdClient(str(result[0]))
+            print('Id account', self.id_account)
+            self.historico = Historico(self.db, self.id_account)
+            # print('result [0] ', result[0])
+            # print('Id account', self.id_account)
             return True
 
     def getBalanceAccount(self, cpf) -> int:
@@ -117,13 +123,29 @@ class Banco:
         else:
             return result[0]
 
+    def getIdAccountByIdClient(self, idClient):
+        result = None
+
+        try:
+            query = "SELECT a.id FROM client AS c INNER JOIN account AS a ON c.id = a.fk_client WHERE a.fk_client = ' "+ idClient +"'"
+            result = self.db.fetchOne(query)
+            print(result)
+            result = result[0]
+        except:
+            result = False
+
+        return result
+
     def saca(self, id, value):
         result = None
         try:
             query = "UPDATE account SET balance = balance - %s WHERE fk_client = %s"
             self.db.cursor(query, (value, id))
-            self.db.commit()
+
             # self.historico.setHistorico(f'SAQUE - R$ {value} - DATA: {datetime.date.today()}')
+            r = self.historico.setHistorico('DATA DE ABERTURA: ' + str(self.historico.data_abertura))
+            self.db.commit()
+            print('result in Banco', r)
             result = True
         except:
             result = False
@@ -136,7 +158,7 @@ class Banco:
             query = "UPDATE account SET balance = balance + %s WHERE fk_client = %s"
             self.db.cursor(query, (value, id))
             self.db.commit()
-            #self.historico.setHistorico(f'DEPOSITO - R$ {value} - DATA: {datetime.date.today()}')
+            # self.historico.setHistorico(f'DEPOSITO - R$ {value} - DATA: {datetime.date.today()}')
             result = True
         except:
             result = False

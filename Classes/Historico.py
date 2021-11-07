@@ -17,7 +17,7 @@ class Historico:
             result = True
         except:
             result = False
-
+        print('result in set his', result)
         return result
 
     def getHistorico(self, id_client):

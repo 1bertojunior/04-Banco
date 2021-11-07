@@ -136,16 +136,21 @@ class Banco:
 
         return result
 
-    def saca(self, id, value):
+    def saca(self, id, value=0, destino=""):
         result = None
+        print('id in saca', id)
         try:
             query = "UPDATE account SET balance = balance - %s WHERE fk_client = %s"
             self.db.cursor(query, (value, id))
-
-            # self.historico.setHistorico(f'SAQUE - R$ {value} - DATA: {datetime.date.today()}')
-            r = self.historico.setHistorico('DATA DE ABERTURA: ' + str(self.historico.data_abertura))
             self.db.commit()
-            print('result in Banco', r)
+            if value == 0:
+                self.historico.setHistorico(f'SAQUE - R$ {value} - DATA: {datetime.date.today()}')
+            else:
+                self.historico.setHistorico(f'TRANSFERENCIA - R$ {value} PARA: {destino}- DATA: {datetime.date.today()}')
+
+            # r = self.historico.setHistorico('DATA DE ABERTURA: ' + str(self.historico.data_abertura))
+            self.db.commit()
+            #print('result in Banco', r)
             result = True
         except:
             result = False
@@ -158,7 +163,7 @@ class Banco:
             query = "UPDATE account SET balance = balance + %s WHERE fk_client = %s"
             self.db.cursor(query, (value, id))
             self.db.commit()
-            # self.historico.setHistorico(f'DEPOSITO - R$ {value} - DATA: {datetime.date.today()}')
+            self.historico.setHistorico(f'DEPOSITO - R$ {value} - DATA: {datetime.date.today()}')
             result = True
         except:
             result = False
@@ -171,8 +176,13 @@ class Banco:
             query = "UPDATE account SET balance = balance + %s WHERE num = %s"
             self.db.cursor(query, (value, num))
             self.db.commit()
-            #self.historico.setHistorico(f"""TRANSFERENCIA - R$ {value} CONTA DESTINO > {num}
-              #                              - DATA: {datetime.date.today()}""")
+            # self.historico.setHistorico(f"""TRANSFERENCIA - R$ {value} CONTA DESTINO > {num}
+            #                              - DATA: {datetime.date.today()}""")
+            # id_account = self.getIdAccountByNum(num)
+            # id_account = id_account[0]
+            # historico = Historico(self.db, id_account)
+            # historico.setHistorico(f'TRASFERENCIA RECEBIDA +R${value} DE {num}')
+            # self.db.commit()
             result = True
         except:
             result = False

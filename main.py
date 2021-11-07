@@ -160,10 +160,12 @@ class Main(QMainWindow, Ui_Main):
         balance = banco.getBalanceAccount(self.cpf)
         
         if value > 0 and value <= balance:
-            query = "UPDATE account SET balance = balance - %s WHERE fk_client = %s"
-            banco.db.cursor(query, (value, banco.idClient))
+            # query = "UPDATE account SET balance = balance - %s WHERE fk_client = %s"
+            # banco.db.cursor(query, (value, banco.idClient))
 
-            banco.db.commit()
+            # banco.db.commit()
+            banco.saca(banco.idClient, value)
+            # banco.db.commit()
             self.showMenssage(self.screenWithdraw, "Saque realziado com sucesso!",1)
             self.screenWithdraw.in_value.setValue(0)
             self.openScreen(6)
@@ -177,9 +179,10 @@ class Main(QMainWindow, Ui_Main):
         value = self.screenDeposit.in_value.value()
 
         if value > 0:
-            query = "UPDATE account SET balance = balance + %s WHERE fk_client = %s"
-            banco.db.cursor(query, (value, banco.idClient))
-            banco.db.commit()
+            # query = "UPDATE account SET balance = balance + %s WHERE fk_client = %s"
+            # banco.db.cursor(query, (value, banco.idClient))
+            banco.depositar(banco.idClient, value)
+            # banco.db.commit()
             # if banco.dic_contas[self.cpf].deposita(value):
             self.showMenssage(self.screenDeposit, "Deposito realziado com sucesso!",1)
             self.screenDeposit.in_value.setValue(0)

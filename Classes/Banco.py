@@ -14,8 +14,6 @@ class Banco:
         self.db = DB(_host, _dbname, _username, _password)
         self.db.toConnect()
         self.result = []
-        self.numaccount = self.getNumAccontById()
-        self.historico = Historico(self.db, self.numaccount)
 
     def getNumAccontById(self):
         result = None
@@ -27,6 +25,7 @@ class Banco:
         except:
             result = False
         print('Num conta: ', result)
+        print(self.idClient)
         return result
 
     def getClientePorCpf(self, cpf) -> bool:
@@ -58,9 +57,20 @@ class Banco:
                 return self.dic_contas[i].cliente.cpf
         return ''
 
+    def getIdAccountByNum(self, num):
+        result = None
+
+        try:
+            query = "SELECT a.id FROM client AS c INNER JOIN account AS a ON c.id = a.fk_client WHERE num = '" + num + "'"
+            result = self.db.fetchOne(query)
+            result = result[0]
+        except:
+            result = False
+
+        return result
             
     def cria_conta(self, num, cliente):
-        conta = Conta(num, cliente, 100.0, 100.0)
+        conta = Conta(num, cliente, 0.0, 0.0)
         if not (self.dic_contas.get(conta.cliente.cpf)):
 
             query = 'INSERT INTO client (name, surname, cpf, password) VALUES (%s, %s, %s, %s) '
@@ -74,8 +84,11 @@ class Banco:
             query = 'INSERT INTO account(num, fk_client) VALUES (%s, %s)'
             self.db.cursor(query, (num, idClient))
 
-            query = "SELECT * FROM account"
-            result = self.db.fetchAll(query)        
+
+            id_account = self.getIdAccountByNum(num)
+            historico = Historico(self.db, id_account)
+            historico.setHistorico('DATA DE ABERTURA: '+str(historico.data_abertura))
+
             
             self.db.commit()
             
@@ -110,7 +123,7 @@ class Banco:
             query = "UPDATE account SET balance = balance - %s WHERE fk_client = %s"
             self.db.cursor(query, (value, id))
             self.db.commit()
-            self.historico.setHistorico(f'SAQUE - R$ {value} - DATA: {datetime.date.today()}')
+            #self.historico.setHistorico(f'SAQUE - R$ {value} - DATA: {datetime.date.today()}')
             result = True
         except:
             result = False
@@ -123,7 +136,7 @@ class Banco:
             query = "UPDATE account SET balance = balance + %s WHERE fk_client = %s"
             self.db.cursor(query, (value, id))
             self.db.commit()
-            self.historico.setHistorico(f'DEPOSITO - R$ {value} - DATA: {datetime.date.today()}')
+            #self.historico.setHistorico(f'DEPOSITO - R$ {value} - DATA: {datetime.date.today()}')
             result = True
         except:
             result = False
@@ -136,8 +149,8 @@ class Banco:
             query = "UPDATE account SET balance = balance + %s WHERE num = %s"
             self.db.cursor(query, (value, num))
             self.db.commit()
-            self.historico.setHistorico(f"""TRANSFERENCIA - R$ {value} CONTA DESTINO > {num}
-                                            - DATA: {datetime.date.today()}""")
+            #self.historico.setHistorico(f"""TRANSFERENCIA - R$ {value} CONTA DESTINO > {num}
+              #                              - DATA: {datetime.date.today()}""")
             result = True
         except:
             result = False

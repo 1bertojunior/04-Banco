@@ -11,7 +11,7 @@ class Conta:
         self._cliente = cliente
         self._saldo = saldo
         self._limite = limite
-        self._historico = Historico()
+        # self._historico = Historico()
         Conta._total_contas += 1
 
     @staticmethod

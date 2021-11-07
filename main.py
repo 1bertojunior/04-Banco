@@ -223,7 +223,7 @@ class Main(QMainWindow, Ui_Main):
     def initHistoric(self):
         idClient = banco.idClient
         print('ID main >> ',idClient)
-        list_historic = banco.historico.getHistorico(idClient)
+        #list_historic = banco.historico.getHistorico(idClient)
         # print(list_historic)
         self.openScreen(4)
         msg = ""

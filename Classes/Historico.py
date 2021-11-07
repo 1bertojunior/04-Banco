@@ -2,20 +2,23 @@ import datetime
 
 
 class Historico:
-    def __init__(self, db, num):
+    def __init__(self, db, id_account):
         self.data_abertura = datetime.datetime.today()
         self.db = db
-        self.num = num
-        query = 'INSERT INTO historic(historic, fk_account) VALUES (%s, %s)'
-        db.cursor(query, (self.data_abertura, num))
-
-        db.commit()
+        self.id_account = id_account
 
     def setHistorico(self, msg):
-        query = 'INSERT INTO historic(historic, fk_account) VALUES (%s, %s)'
-        self.db.cursor(query, (msg, self.num))
+        result = None
+        try:
+            query = 'INSERT INTO historic(historic, fk_account) VALUES (%s, %s)'
+            self.db.cursor(query, (msg, self.id_account))
 
-        self.db.commit()
+            self.db.commit()
+            result = True
+        except:
+            result = False
+
+        return result
 
     def getHistorico(self, id_client):
         # "SELECT id FROM account WHERE num =  '" + num + "'" '" + id_client + "' ON a.id = a.fk_account

@@ -1,6 +1,9 @@
+import datetime
+
 from Classes.Conta import Conta
 from Classes.db import DB
 from Classes.credentials import _host, _dbname, _username, _password
+from Classes.Historico import Historico
 
 
 class Banco:
@@ -11,6 +14,20 @@ class Banco:
         self.db = DB(_host, _dbname, _username, _password)
         self.db.toConnect()
         self.result = []
+        self.numaccount = self.getNumAccontById()
+        self.historico = Historico(self.db, self.numaccount)
+
+    def getNumAccontById(self):
+        result = None
+
+        try:
+            query = "SELECT a.num FROM client AS c INNER JOIN account AS a ON c.id = a.fk_client WHERE id = '" + self.idClient + "'"
+            result = self.db.fetchOne(query)
+            self.numAccount = result[1]
+        except:
+            result = False
+        print('Num conta: ', result)
+        return result
 
     def getClientePorCpf(self, cpf) -> bool:
         result = None
@@ -93,6 +110,7 @@ class Banco:
             query = "UPDATE account SET balance = balance - %s WHERE fk_client = %s"
             self.db.cursor(query, (value, id))
             self.db.commit()
+            self.historico.setHistorico(f'SAQUE - R$ {value} - DATA: {datetime.date.today()}')
             result = True
         except:
             result = False
@@ -105,6 +123,7 @@ class Banco:
             query = "UPDATE account SET balance = balance + %s WHERE fk_client = %s"
             self.db.cursor(query, (value, id))
             self.db.commit()
+            self.historico.setHistorico(f'DEPOSITO - R$ {value} - DATA: {datetime.date.today()}')
             result = True
         except:
             result = False
@@ -117,6 +136,8 @@ class Banco:
             query = "UPDATE account SET balance = balance + %s WHERE num = %s"
             self.db.cursor(query, (value, num))
             self.db.commit()
+            self.historico.setHistorico(f"""TRANSFERENCIA - R$ {value} CONTA DESTINO > {num}
+                                            - DATA: {datetime.date.today()}""")
             result = True
         except:
             result = False
@@ -127,10 +148,12 @@ class Banco:
         result = None
 
         try:
-            query = "SELECT a.balance, a.fk_client FROM client AS c INNER JOIN account AS a ON c.id = a.fk_client WHERE cpf = '" + cpf + "'"
+            query = "SELECT a.balance, a.fk_client FROM client AS c INNER JOIN account AS a ON c.id = a.fk_client WHERE num = '" + num + "'"
             result = self.db.fetchOne(query)
             result = result[1]
         except:
             result = False
 
         return result
+
+

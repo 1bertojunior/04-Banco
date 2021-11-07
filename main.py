@@ -221,11 +221,14 @@ class Main(QMainWindow, Ui_Main):
 
 
     def initHistoric(self):
-        list_historic = banco.dic_contas[self.cpf].historico.getHistorico()
+        idClient = banco.idClient
+        print('ID main >> ',idClient)
+        list_historic = banco.historico.getHistorico(idClient)
+        # print(list_historic)
         self.openScreen(4)
         msg = ""
-        for i in list_historic:
-            msg +=  i + "\n" 
+        # for i in list_historic:
+        #     msg +=  i + "\n"
 
         
         self.screenHistoric.text_historic.setText(msg)

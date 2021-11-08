@@ -23,7 +23,9 @@ class DB():
             if self.conn.is_connected():
                 print("# CONEXÃO REALIZADA COM SUCESSO!")
                 result = True
-        
+            else:
+                print('[!] ERRO AO CONECTAR COM O BANCO DE DADOS')
+                result = False
         except:
             print("[!] ERRO AO SE COMUNICAR COM DB")
             result = False

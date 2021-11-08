@@ -224,8 +224,6 @@ class Main(QMainWindow, Ui_Main):
 
 
     def initHistoric(self):
-        print('Historico')
-        #print(banco.historico.getHistorico())
         list_historic = list(banco.historico.getHistorico())
         self.openScreen(4)
         msg = ""

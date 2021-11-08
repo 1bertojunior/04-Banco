@@ -25,7 +25,6 @@ class Banco:
             result = result[0]
         except:
             result = False
-        print("RESULT: ", result)
         return result
 
     def getClientePorCpf(self, cpf) -> bool:
@@ -100,16 +99,12 @@ class Banco:
         result = None
         query = "SELECT id FROM client WHERE cpf = '"+ CPF +"' AND password = '" + SENHA +"'" 
         result = self.db.fetchOne(query)
-        # print('result [0] ', result[0])
 
         if result == None:
             return False
         else:
             self.id_account = self.getIdAccountByIdClient(str(result[0]))
-            print('Id account', self.id_account)
             self.historico = Historico(self.db, self.id_account)
-            # print('result [0] ', result[0])
-            # print('Id account', self.id_account)
             return True
 
     def getBalanceAccount(self, cpf) -> int:
@@ -129,7 +124,6 @@ class Banco:
         try:
             query = "SELECT a.id FROM client AS c INNER JOIN account AS a ON c.id = a.fk_client WHERE a.fk_client = ' "+ idClient +"'"
             result = self.db.fetchOne(query)
-            print(result)
             result = result[0]
         except:
             result = False
@@ -138,7 +132,6 @@ class Banco:
 
     def saca(self, id, value, flag=0, destino=""):
         result = None
-        print('id in saca', id)
         try:
             query = "UPDATE account SET balance = balance - %s WHERE fk_client = %s"
             self.db.cursor(query, (value, id))
@@ -147,7 +140,6 @@ class Banco:
                 self.historico.setHistorico(f'SAQUE - R$ {value} - DATA: {datetime.date.today()}')
             else:
                 idAccountDestiny = self.getIdAccountByNum(destino)
-                print('ID Account destino: ', idAccountDestiny)
                 historico = Historico(self.db, idAccountDestiny)
                 numAccount = self.getNumAccontById(str(self.id_account))
                 historico.setHistorico(f'TRANSFERENCIA - R$ {value} DE: {numAccount}- DATA: {datetime.date.today()}')
@@ -155,7 +147,6 @@ class Banco:
 
             # r = self.historico.setHistorico('DATA DE ABERTURA: ' + str(self.historico.data_abertura))
             self.db.commit()
-            #print('result in Banco', r)
             result = True
         except:
             result = False

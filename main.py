@@ -201,7 +201,7 @@ class Main(QMainWindow, Ui_Main):
         if value > 0 and value <= balance:
             if destinationAccount != "":
                 if banco.checkNumDaConta(destinationAccount):
-                    if banco.saca(banco.idClient, value):
+                    if banco.saca(banco.idClient, value, 1, destinationAccount):
                         if banco.depositar2(destinationAccount, value):
                             self.showMenssage(self.screenTransfer, "Transferência realizada com sucesso!", 1)
                             self.screenTransfer.in_value.setValue(0)
@@ -224,14 +224,13 @@ class Main(QMainWindow, Ui_Main):
 
 
     def initHistoric(self):
-        idClient = banco.idClient
-        print('ID main >> ',idClient)
-        #list_historic = banco.historico.getHistorico(idClient)
-        # print(list_historic)
+        print('Historico')
+        #print(banco.historico.getHistorico())
+        list_historic = list(banco.historico.getHistorico())
         self.openScreen(4)
         msg = ""
-        # for i in list_historic:
-        #     msg +=  i + "\n"
+        for i in list_historic:
+            msg += str(i) + "\n"
 
         
         self.screenHistoric.text_historic.setText(msg)

@@ -15,17 +15,17 @@ class Banco:
         self.db.toConnect()
         self.result = []
 
-    def getNumAccontById(self):
+    def getNumAccontById(self, id):
         result = None
 
         try:
-            query = "SELECT a.num FROM client AS c INNER JOIN account AS a ON c.id = a.fk_client WHERE id = '" + self.idClient + "'"
+            #query = "SELECT a.id FROM client AS c INNER JOIN account AS a ON c.id = a.fk_client WHERE a.id = '" + id + "'"
+            query = "SELECT a.num FROM client AS c INNER JOIN account AS a ON c.id = a.fk_client WHERE a.id = '" + id + "'"
             result = self.db.fetchOne(query)
-            self.numAccount = result[1]
+            result = result[0]
         except:
             result = False
-        print('Num conta: ', result)
-        print(self.idClient)
+        print("RESULT: ", result)
         return result
 
     def getClientePorCpf(self, cpf) -> bool:
@@ -136,16 +136,21 @@ class Banco:
 
         return result
 
-    def saca(self, id, value=0, destino=""):
+    def saca(self, id, value, flag=0, destino=""):
         result = None
         print('id in saca', id)
         try:
             query = "UPDATE account SET balance = balance - %s WHERE fk_client = %s"
             self.db.cursor(query, (value, id))
             self.db.commit()
-            if value == 0:
+            if flag == 0:
                 self.historico.setHistorico(f'SAQUE - R$ {value} - DATA: {datetime.date.today()}')
             else:
+                idAccountDestiny = self.getIdAccountByNum(destino)
+                print('ID Account destino: ', idAccountDestiny)
+                historico = Historico(self.db, idAccountDestiny)
+                numAccount = self.getNumAccontById(str(self.id_account))
+                historico.setHistorico(f'TRANSFERENCIA - R$ {value} DE: {numAccount}- DATA: {datetime.date.today()}')
                 self.historico.setHistorico(f'TRANSFERENCIA - R$ {value} PARA: {destino}- DATA: {datetime.date.today()}')
 
             # r = self.historico.setHistorico('DATA DE ABERTURA: ' + str(self.historico.data_abertura))

@@ -107,7 +107,7 @@ class Banco:
             self.historico = Historico(self.db, self.id_account)
             return True
 
-    def getBalanceAccount(self, cpf) -> int:
+    def getBalanceAccount(self, cpf):
         result = None
         query = "SELECT a.balance, a.fk_client FROM client AS c INNER JOIN account AS a ON c.id = a.fk_client WHERE cpf = '" + cpf + "'"
         result = self.db.fetchOne(query)
